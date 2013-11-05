@@ -14,10 +14,11 @@
 ActiveRecord::Schema.define(version: 20131104205651) do
 
   create_table "student_events", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "course_id"
+    t.string   "user_name"
+    t.string   "course_name"
     t.string   "exercise_name"
     t.string   "event_type"
+    t.string   "metadata_json"
     t.binary   "data"
     t.datetime "happened_at"
     t.integer  "system_nano_time"
