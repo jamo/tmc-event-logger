@@ -80,9 +80,8 @@ class StudentEventsRecorderApp
   end
 
   def serve_post_task
-    if true
-      #notifier = if @req['notify'] then Notifier.new(@req['notify'], @req['token']) else nil end
-      #inst.start(@req['file'][:tempfile].path) do |status, exit_code, output|
+    if @req.params['events']
+      # it shoud do somethig with events json :D
       @respdata[:status] = 'ok'
     else
       @resp.status = 500
