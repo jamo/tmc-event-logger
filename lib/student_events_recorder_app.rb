@@ -2,19 +2,11 @@ require 'multi_json'
 require 'net/http'
 require 'uri'
 require 'app_log'
-require 'mongo'
-require 'bson_ex'
+#require 'bson_ex' may offer faster json parsing
 class StudentEventsRecorderApp
 
 
-  include Mongo
   def initialize
-     @mongo = create_new_connection
-     @coll = @mongo.collection("tmc-test")
-  end
-
-  def create_new_connection
-    MongoClient.new("localhost", 27017).db("tmc-spyware-demo")
   end
 
 
@@ -89,7 +81,7 @@ class StudentEventsRecorderApp
 
   def serve_post_task
     if @req.params['events']
-      @coll.insert @req.params['events']
+       @req.params['events']
       # it shoud do somethig with events json :D
       @respdata[:status] = 'ok'
     else
