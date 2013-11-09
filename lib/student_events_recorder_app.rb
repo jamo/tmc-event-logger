@@ -2,8 +2,20 @@ require 'multi_json'
 require 'net/http'
 require 'uri'
 require 'app_log'
-
+require 'mongo'
+require 'bson_ex'
 class StudentEventsRecorderApp
+
+
+  include Mongo
+  def initialize
+     @mongo = create_new_connection
+     @coll = @mongo.collection("tmc-test")
+  end
+
+  def create_new_connection
+    MongoClient.new("localhost", 27017).db("tmc-spyware-demo")
+  end
 
 
   def call(env)
@@ -72,15 +84,12 @@ class StudentEventsRecorderApp
   end
 
   def serve_status
-    busy = @instances.count(&:busy?)
-    total = @instances.size
-    @respdata[:busy_instances] = busy
-    @respdata[:total_instances] = total
     @respdata[:loadavg] = File.read("/proc/loadavg").split(' ')[0..2] if File.exist?("/proc/loadavg")
   end
 
   def serve_post_task
     if @req.params['events']
+      @coll.insert @req.params['events']
       # it shoud do somethig with events json :D
       @respdata[:status] = 'ok'
     else
@@ -90,6 +99,3 @@ class StudentEventsRecorderApp
   end
 
 end
-
-
-  class BadRequest < StandardError; end

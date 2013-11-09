@@ -9,3 +9,5 @@ gem 'sqlite3'
 gem 'test-unit'
 gem 'rack-test'
 
+gem 'mongo'
+gem 'bson_ext' #for better mongodb performance
